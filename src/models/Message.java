@@ -17,7 +17,8 @@ import javax.persistence.Table;
 @NamedQueries({
         //'query'が示す内容のSELECT文に'getAllMessage'という名前をつける
         //SELECT文の意味：全てのデータをMessageクラスからID番号の降順で取得する
-        @NamedQuery(name = "getAllMessages", query = "SELECT m FROM Message AS m ORDER BY m.id DESC")
+        @NamedQuery(name = "getAllMessages", query = "SELECT m FROM Message AS m ORDER BY m.id DESC"),
+        @NamedQuery(name = "getMessagesCount", query = "SELECT COUNT(m) FROM Message AS m")
 })
 
 @Table(name = "messages")
