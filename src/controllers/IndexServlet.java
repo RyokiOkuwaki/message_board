@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,10 +44,14 @@ public class IndexServlet extends HttpServlet {
         //データベースに保存されたデータはHibernateによって自動でMessageクラスのオブジェクトになりリストの中に格納される。
         List<Message> messages = em.createNamedQuery("getAllMessages", Message.class).getResultList();
 
-        //データの登録件数を表示
-        response.getWriter().append(Integer.valueOf(messages.size()).toString());
-
         em.close();
+
+        //データベースから取得したメッセージ一覧(message)をリクエストスコープにセットし、 index.jspを呼び出す(入力データを送る)
+        request.setAttribute("messages", messages);
+
+        //ビューとなるJSPを指定して表示する
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/index.jsp");
+        rd.forward(request, response);
     }
 
 }
